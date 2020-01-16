@@ -1,22 +1,21 @@
-title: Hello, world! I'm David Freeman
+title: Hello, world! I'm Yusuf Sina Yildiz
 description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  The blog that has some information about Yusuf Sina Yildiz.
+  Projects, ideas and other things.
 permalink: ':title/'
-baseurl: "/flexible-jekyll" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-site-twitter: #if your site has a twitter account, enter it here
+site-twitter: https://twitter.com/sinaayildiz #if your site has a twitter account, enter it here
 
 # Author Settings
-author: David Freeman # add your name
-author-img: david-freeman.jpg # add your photo
-about-author: I am a web developer focusing on front-end development. Always hungry to keep learning. # add description
-social-twitter: # add your Twitter handle
+author: Yusuf Sina Yildiz # add your name
+author-img: ysy.jpeg # add your photo
+about-author: I am student in computer engineering at Sakarya University. # add description
+social-twitter: sinaayildiz # add your Twitter handle
 social-facebook: # add your Facebook handle
-social-github: artemsheludko # add your Github handle
-social-linkedin: # add your Linkedin handle
-social-email: # add your Email address
+social-github: YusufSina # add your Github handle
+social-linkedin: yusuf-sina-yildiz-409365158/ # add your Linkedin handle
+social-email: yusufsinayildiz@gmail.com # add your Email address
 
 # Disqus
 discus-identifier: mr-brown # add your discus identifier
