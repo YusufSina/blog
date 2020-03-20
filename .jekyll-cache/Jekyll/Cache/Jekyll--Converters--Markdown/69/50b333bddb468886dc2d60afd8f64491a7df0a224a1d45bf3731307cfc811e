@@ -1,0 +1,407 @@
+I"g+<h2 id="generics">Generics</h2>
+
+<p>class Gen&lt;T&gt; ile tamınlanır.</p>
+
+<h3 id="generics-tip-güvenliği-nasıl-arttırılır">Generics Tip Güvenliği Nasıl arttırılır</h3>
+
+<p>Veri tipini object olarak belirleyip generic olmadan da generic işlevselliği yapılabilir fakat gen. yapmanın yararı nedir? Genericler classı ilgilendiren tüm işlemlerde tip güvenliğini garanti altına alır.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class Nongen {
+    object ob;
+    
+    public object GetOb(){
+        return ob;
+    }
+}
+
+Nongen iob = new Nongen(23);
+Nongen sob = new Nongen("test");
+
+int v = iob.GetOb();
+
+iob = sob // bu derlenir ancak kavramsal olarak yanlıştır.
+
+v = (int) iob.getOb(); // Çalışma zamanı hatası
+</code></pre></div></div>
+
+<h2 id="i̇ki-parametreli-jeneric-sınıf">İki Parametreli Jeneric Sınıf</h2>
+
+<p>class Gen&lt;T, V&gt; olarak tanımlanır.</p>
+
+<h2 id="kısıtlı-tipler-constraid-types">Kısıtlı Tipler (constraid types)</h2>
+
+<h3 id="temel-sınıf-kısıtlaması">Temel Sınıf Kısıtlaması</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where T : temel-sınıf-adı  ile tanımlanır.
+
+class A {
+    public void Hello() {
+        Console.WriteLine("Hello");
+    }
+}
+
+class B : A { }
+class C { }
+
+class Test&lt;T&gt; where T : A {
+    T obj;
+}
+// Test'e aktarılan tüm argümanların temel sınıfı A olmalı.
+</code></pre></div></div>
+
+<h3 id="interface-kısıtlaması-kullanmak">Interface Kısıtlaması Kullanmak</h3>
+
+<p>Verilen herhangi bir interface kısıtlaması için tip argümanı interface veya bu interface i uygulayan bir tip olmalıdır.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public interface IPhoneNumber {
+    string Number  { get; set; }
+    string Name { get; set; }
+}
+
+class Friend : IPhoneNumber {
+    //codes..
+}
+
+class Supplier : IPhoneNumber  {
+    //codes..
+}
+
+class EmailFriend {
+    //codes..
+}
+
+class PhoneList&lt;T&gt; where T : IPhneNumber {
+    //codes..
+}
+// PhoneList e Friend ve Supplier i uygulayabilirim ama EmailFriend hata verir.
+</code></pre></div></div>
+
+<h3 id="new-yapılandırıcı-kısıtlamasını-kullanmak">new() Yapılandırıcı Kısıtlamasını Kullanmak</h3>
+
+<p>new() yapılandırıcı kısıtlamasını kullanmak jenerik tipinde bir nesne örneği oluşturmamı sağlar. Normalde bir jenerik tip parametresinin örneğini oluşturamam.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class MyClass() {
+    public MyClass() {
+        //...
+    }
+}
+
+class Test&lt;T&gt; where T : new() {
+    T obj;
+    public Test() {
+        // Bu, new() kısıtlaması sayesinde calisir.
+        obj = new T(); // bir T nesnesi oluşturur
+    }
+}
+
+static void Main() {
+    Test&lt;MyClass&gt; x = new Test&lt;MyClass&gt;();
+}
+</code></pre></div></div>
+
+<h4 id="özetlemediğim-konular">Özetlemediğim Konular</h4>
+
+<ul>
+  <li>
+    <h5 id="referans-ve-değer-tipi-kısıtlamaları">Referans ve Değer Tipi Kısıtlamaları</h5>
+  </li>
+  <li>
+    <h5 id="i̇ki-tip-parametresinin-i̇lişkilendirmek-i̇çin-kısıtlama-kullanmak">İki Tip Parametresinin İlişkilendirmek İçin Kısıtlama Kullanmak</h5>
+  </li>
+  <li>
+    <h5 id="birden-çok-kısıtlama-kullanmak">Birden Çok Kısıtlama Kullanmak</h5>
+  </li>
+  <li>
+    <h5 id="tip-parametresinin-varsayılan-nesnesini-oluşturmak">Tip Parametresinin Varsayılan Nesnesini Oluşturmak</h5>
+  </li>
+  <li>
+    <h5 id="jenerik-yapılar">Jenerik Yapılar</h5>
+  </li>
+  <li>
+    <h5 id="bir-jenerik-metot-oluşturmak">Bir Jenerik Metot Oluşturmak</h5>
+  </li>
+  <li>
+    <h5 id="bir-jenerik-metodu-çağırmak-i̇çin-açık-tip-argümanları-kullanmak">Bir Jenerik Metodu Çağırmak İçin Açık Tip Argümanları Kullanmak</h5>
+  </li>
+  <li>
+    <h5 id="jenerik-bir-metot-ile-bir-kısıtlama-kullanmak">Jenerik Bir Metot ile Bir Kısıtlama Kullanmak</h5>
+  </li>
+  <li>
+    <h5 id="jenerik-delegeler">Jenerik Delegeler</h5>
+  </li>
+  <li>
+    <h5 id="jenerik-interfaceler">Jenerik Interfaceler</h5>
+  </li>
+</ul>
+
+<p>ve dahası …</p>
+
+<h2 id="repository-tasarım-deseni">Repository Tasarım Deseni</h2>
+
+<p>Repository tasarım kalıbı ile veritabanından veri çekmek için yazdığımız kodları bir defa yazarak çok defa kullanmak amaçlanmıştır. Yani tekrar kullanılabilir kod mantığı üzerine kulurmuştur</p>
+
+<p>Bu kalıbın iki farklı kullanımı vardır:</p>
+
+<ul>
+  <li>
+    <p>Generic Repository</p>
+  </li>
+  <li>
+    <p>Her tablo için bir repository</p>
+  </li>
+</ul>
+
+<p>İkinci durum bazı özel tablolarda ve özel kontroller, ekstra işlemler için kullanılır.</p>
+
+<p>Bu tasarım çok fazla sorgu gereksinimi olan sistemlerde kullanılır.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class A
+{
+    private int id;
+    private string name;
+
+    public A(int id, string name)
+    {
+        this.id = id;
+        this.name = name;
+    }
+
+    public override string ToString()
+    {
+        return "ID: " + this.id + " Name: " + this.name;
+    }
+}
+
+class Repository&lt;T&gt; where T : class
+{
+    private List&lt;T&gt; list;
+
+    public Repository()
+    {
+        this.list = new List&lt;T&gt;();
+    }
+
+    public void add(T item)
+    {
+        list.Add(item);
+    }
+
+    public void remove(T item)
+    {
+        list.Remove(item);
+    }
+
+    public List&lt;T&gt; getAll()
+    {
+        return list;
+    }    }
+
+ static void Main(string[] args)
+    {
+        Repository&lt;A&gt; repository = new Repository&lt;A&gt;();
+
+        A a1 = new A(1, "John Doe");
+        A a2 = new A(2, "Mr. Smith");
+        A a3 = new A(3, "Mrs. Smith");
+        A a4 = new A(4, "Jr. Smith");
+
+        repository.add(a1);
+        repository.add(a2);
+        repository.add(a3);
+        repository.add(a4);
+
+        foreach(A a in repository.getAll())
+        {
+            Console.WriteLine(a);
+        }
+    }
+</code></pre></div></div>
+
+<h2 id="unit-of-work-pattern">Unit of Work Pattern</h2>
+
+<p>Bu kalıp, iş katmanınızda yaptığınız her değişikliği anlık olarak veritabanına anlık olarak yansıtılmaması ve işlemlerin biriktirilerek toplu olarak bir defa veritabanı bağlantısı açarak yapılmasıdır.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// A ve B sınıfını databasedeki bir tablo olduğunu varsayalım.
+class A
+{
+    private int id;
+    private string name;
+
+    public A(int id, string name)
+    {
+        this.id = id;
+        this.name = name;
+    }
+
+    public override string ToString()
+    {
+        return "ID: " + this.id + " Name: " + this.name;
+    }
+}
+
+class B
+{
+    private int id;
+    private string task;
+    
+    public B(int id, string task)
+    {
+        this.id = id;
+        this.task = task;
+    }
+
+    public override string ToString()
+    {
+        return "ID: " + this.id + " Task: " + this.task;
+    }
+}
+
+// Burası bir tablo için işlemler yapabileceğiniz sınıf.
+class Repository&lt;T&gt; where T : class
+{
+    private List&lt;T&gt; list;
+
+    public Repository()
+    {
+        this.list = new List&lt;T&gt;();
+    }
+
+    public void add(T item)
+    {
+        list.Add(item);
+    }
+
+    public void remove(T item)
+    {
+        list.Remove(item);
+    }
+
+    public List&lt;T&gt; getAll()
+    {
+        return list;
+    }
+
+    public void save()
+    {
+        //save
+    }
+}
+
+// Burası bir çok tabloya erişebileceğiniz sınıf.
+class UnitOfWork
+{
+    // database connection will be here
+
+    public Repository&lt;A&gt; repositoryA;
+    public Repository&lt;B&gt; repositoryB;
+
+    public UnitOfWork()
+    {
+        repositoryA = new Repository&lt;A&gt;();
+        repositoryB = new Repository&lt;B&gt;();
+    }
+
+    public void save()
+    {
+        // save
+    }
+
+static void Main(string[] args)
+    {
+
+        UnitOfWork unitOfWork = new UnitOfWork();
+
+        A a1 = new A(1, "John Doe");
+        A a2 = new A(2, "Mr. Smith");
+        A a3 = new A(3, "Mrs. Smith");
+        A a4 = new A(4, "Jr. Smith");
+
+        B b1 = new B(1, "task1");
+        B b2 = new B(2, "task2");
+        B b3 = new B(3, "task3");
+        B b4 = new B(4, "task4");
+
+        unitOfWork.repositoryA.add(a1);
+        unitOfWork.repositoryA.add(a2);
+        unitOfWork.repositoryA.add(a3);
+        unitOfWork.repositoryA.add(a4);
+
+
+        unitOfWork.repositoryB.add(b1);
+        unitOfWork.repositoryB.add(b2);
+        unitOfWork.repositoryB.add(b3);
+        unitOfWork.repositoryB.add(b4);
+
+        
+        foreach (A a in unitOfWork.repositoryA.getAll())
+        {
+            Console.WriteLine(a);
+        }
+        foreach (B b in unitOfWork.repositoryB.getAll())
+        {
+            Console.WriteLine(b);
+        }
+
+        unitOfWork.save();
+    }
+</code></pre></div></div>
+
+<p><strong>Bu Makaleyi Hazırlarken Edindiğim Notlar :</strong></p>
+
+<ul>
+  <li>
+    <p><strong>internal:</strong> objeden veya kalıtım almış sınıftan oluşamaz, sadece sınıfın içinden</p>
+  </li>
+  <li>
+    <p><strong>readonly:</strong> sadece constructor içinde değiştirilir.</p>
+  </li>
+  <li>
+    <p><strong>Guid:</strong>  Açılımı Global Unique Identifier, kendileri 16 byte integer olup özel bir tanımlayıcı(unique identifier) gereken tüm bilgisayar ve networklerde kullanabilirsiniz.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Guid id = Guid.NewGuid();
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>??= işareti:</strong> Sağdaki değeri sadece soldaki değer null ise sola atar.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  int? x = null;
+  x ??= 5; // if x == null then x = 5
+
+  //başka bir örnek
+  int? a = 10, b = 20, c = null;
+  a = c ?? b; // a = 20 olur
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>Transient:</strong> Her erişimde yeni bir instance oluşturulur. Lightweight ve stateless services için en iyisidir.</p>
+  </li>
+  <li>
+    <p><strong>Scoped:</strong> Her request için yeni bir instance ile devam eder.</p>
+  </li>
+  <li>
+    <p><strong>Singleton:</strong>  Uygulama ayağa kaltığı andan itibaren aynı instance ile devam eder.</p>
+  </li>
+</ul>
+
+<p><strong>Kaynaklar:</strong></p>
+
+<ul>
+  <li>
+    <p><em>Herkes için C# 4.0 : Helbert Schildt</em></p>
+  </li>
+  <li>
+    <p><em>Tasarım Desenleri ve Mimarileri : Ali Kaya - Engin Bulut</em></p>
+  </li>
+  <li>
+    <p><a href="https://medium.com/@peacecwz/net-core-2-0-dependency-injection-i%C3%A7erisinde-ef-core-ile-repository-pattern-kullan%C4%B1m%C4%B1-b%C3%B6l%C3%BCm-1-3e8e0bfa6b7a">Barış Ceviz’in Makalesi</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.forevolve.com/en/articles/2017/08/11/design-patterns-web-api-service-and-repository-part-1/">Design Patterns: Asp.Net Core Web API, services, and repositories
+Part 1: Introduction</a></p>
+  </li>
+</ul>
+
+<blockquote>
+  <p><strong>NOT:</strong> Bu yazdıklarım yukarda belirtmiş olduğum kaynaklardan aldığım notlardır.</p>
+</blockquote>
+:ET

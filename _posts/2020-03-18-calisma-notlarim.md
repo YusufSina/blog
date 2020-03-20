@@ -3,7 +3,7 @@ layout: post
 title: Çalışma Notlarım - 1
 date: 2020-03-19 23:18:00 +0300
 description: Jenerikler, Repository Tasarım Deseni ve Unit of Work Tasarım Deseni # Add post description (optional)
-img: # Add image post (optional)
+img: notebook-and-coffee.jpeg # Add image post (optional)
 fig-caption: # Add figcaption (optional)
 tags: [repository-tasarim-deseni, unit-of-work-tasarim-deseni, C#-jenerikler]
 ---
