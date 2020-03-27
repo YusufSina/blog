@@ -8,11 +8,11 @@ fig-caption: # Add figcaption (optional)
 tags: [repository-tasarim-deseni, unit-of-work-tasarim-deseni, C#-jenerikler]
 ---
 
-## Generics
+## Jenerikler
 
 class Gen\<T> ile tamınlanır.
 
-### Generics Tip Güvenliği Nasıl arttırılır
+### Jenerikler Tip Güvenliği Nasıl Arttırılır
 
 Veri tipini object olarak belirleyip generic olmadan da generic işlevselliği yapılabilir fakat gen. yapmanın yararı nedir? Genericler classı ilgilendiren tüm işlemlerde tip güvenliğini garanti altına alır.
 
@@ -33,7 +33,7 @@ Veri tipini object olarak belirleyip generic olmadan da generic işlevselliği y
 
     v = (int) iob.getOb(); // Çalışma zamanı hatası
 
-## İki Parametreli Jeneric Sınıf
+## İki Parametreli Jenerik Sınıf
 
 class Gen\<T, V> olarak tanımlanır.
 
