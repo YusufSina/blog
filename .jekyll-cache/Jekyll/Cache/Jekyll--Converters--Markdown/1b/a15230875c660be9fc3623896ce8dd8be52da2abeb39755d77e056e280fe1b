@@ -1,8 +1,8 @@
-I"g+<h2 id="generics">Generics</h2>
+I"o+<h2 id="jenerikler">Jenerikler</h2>
 
 <p>class Gen&lt;T&gt; ile tamınlanır.</p>
 
-<h3 id="generics-tip-güvenliği-nasıl-arttırılır">Generics Tip Güvenliği Nasıl arttırılır</h3>
+<h3 id="jenerikler-tip-güvenliği-nasıl-arttırılır">Jenerikler Tip Güvenliği Nasıl Arttırılır</h3>
 
 <p>Veri tipini object olarak belirleyip generic olmadan da generic işlevselliği yapılabilir fakat gen. yapmanın yararı nedir? Genericler classı ilgilendiren tüm işlemlerde tip güvenliğini garanti altına alır.</p>
 
@@ -24,7 +24,7 @@ iob = sob // bu derlenir ancak kavramsal olarak yanlıştır.
 v = (int) iob.getOb(); // Çalışma zamanı hatası
 </code></pre></div></div>
 
-<h2 id="i̇ki-parametreli-jeneric-sınıf">İki Parametreli Jeneric Sınıf</h2>
+<h2 id="i̇ki-parametreli-jenerik-sınıf">İki Parametreli Jenerik Sınıf</h2>
 
 <p>class Gen&lt;T, V&gt; olarak tanımlanır.</p>
 

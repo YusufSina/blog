@@ -1,0 +1,58 @@
+I"k<p>Ajax bir programlama dili değildir. Şu iki şeyi kullanır XMLHttpRequest ve Javascript-HTMl Dom. Veri transferi için XML kullanabilir ama genellikle düz text veya JSON text olarak veri gönderir.</p>
+
+<h2 id="ajaxın-çalışması-mantığı">AJAX’ın Çalışması Mantığı</h2>
+
+<p>Tarayıcıda bir işlem yapılır. XMLHttpRequest objesi oluşturulur. İnternet üzerinden HttpRequest sunucuya gönderilir. Sunucuda HttpRequest işlenir. Cevap oluşturulur ve veri tarayıcıya internet üzerinden geri gönderilir. Geri dönen veri, javascript ile işlenir. Sayfanın içeriği güncellenir.</p>
+
+<p><img src="../assets/img/howajaxworks.png" alt="Çalışma Mantığı" /></p>
+
+<h2 id="xmlhttprequest-objesi">XMLHttpRequest Objesi</h2>
+
+<p>Tüm modern tarayıcılar XMLHttpRequest objesini destekler. XMLHttpRequest objesi, web uygulamasının arka tarafda veri transferi için kullanılabilir. Bu da web sayfasının bazı yerlerini tüm sayfayı yenilemeye gerek kalmadan güncelleyebiliriz demektir.</p>
+
+<p>Get, Post işleminden daha basit ve hızlıdır ama post isteği dosya göndermek, büyük miktarda veri göndermek, kullanıcının girdilerini(şifre gibi)  için daha güçlü ve güvenlidir.</p>
+
+<h2 id="jquery-ile-ajax-get-i̇şlemi">Jquery ile AJAX Get İşlemi</h2>
+
+<p>Jquery’deki <em>ajax</em> methodu servera asenkron http isteği atmamızı sağlar. Kullanılışı aşağıdaki şekildedir. GET, POST, PUT, DELETE işlemleri yapılır.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$.ajax(url,[options]);
+</code></pre></div></div>
+
+<p>Eğer options kısmında method belirtilmez ise default olarak GET isteği atılır.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$("#myButton").click(function () {
+        $.ajax('https://jsonplaceholder.typicode.com/users', {
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (result) {
+                $.each(result, function (index, item) {
+                    $("#myList").append('&lt;li&gt;Name: ' + item.name + ' Username: ' + item.username + '&lt;/li&gt;');
+                });
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+    });
+</code></pre></div></div>
+
+<p>Bir sonraki notum veritabanı bağlantısıyla beraber POST, PUT, DELETE işlemleri olacak.</p>
+
+<p><strong>Kaynaklar:</strong></p>
+
+<ul>
+  <li>
+    <p><em><a href="https://www.yogihosting.com/jquery-ajax-aspnet-core/">https://www.yogihosting.com/jquery-ajax-aspnet-core/</a></em></p>
+  </li>
+  <li>
+    <p><em><a href="https://www.thereformedprogrammer.net/asp-net-core-razor-pages-how-to-implement-ajax-requests/">https://www.thereformedprogrammer.net/asp-net-core-razor-pages-how-to-implement-ajax-requests/</a></em></p>
+  </li>
+  <li>
+    <p><em><a href="https://www.w3schools.com/js/js_ajax_intro.asp">https://www.w3schools.com/js/js_ajax_intro.asp</a></em></p>
+  </li>
+  <li>
+    <p><em><a href="https://www.tutorialsteacher.com/jquery/jquery-ajax-method">https://www.tutorialsteacher.com/jquery/jquery-ajax-method</a></em></p>
+  </li>
+</ul>
+:ET

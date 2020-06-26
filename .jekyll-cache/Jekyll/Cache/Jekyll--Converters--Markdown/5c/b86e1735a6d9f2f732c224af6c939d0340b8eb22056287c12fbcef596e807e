@@ -1,0 +1,136 @@
+I"�<p><em>Selçuk Ermaya’nın Web API, RESTful Best Practise sunumundan aldığım notlardır.</em></p>
+
+<p>Zapier, bir mail geldiğinde aksiyon üretmesini sağlayan bir uygulama.</p>
+
+<h2 id="efektif-uygulama-biçimleri">Efektif Uygulama Biçimleri</h2>
+
+<ul>
+  <li><strong>Semantic Naming:</strong> Bir API ucuna  baktığım zaman o şu işi yapıyor diyebilmeliyim.</li>
+  <li><strong>Reliation Endpoints:</strong>  Bazı endpointler ilişkili olmalı, kullanıcının resimleri gibi,</li>
+  <li><strong>Common Model:</strong>  Cevap modelinin ortak olması gerekliliği</li>
+  <li><strong>Common Security Layer:</strong>  20 API için farklı farklı güvenlik yöntemleri uyguluyorsak, onu ortak bir katman haline getirmeliyiz.</li>
+  <li><strong>Caching:</strong>  Cacheleniyor olabilmesi gerekiyor, client tarafında da sunuc tarafında da, çok kullanılan API ler için</li>
+  <li><strong>Seperated Request / DTO model:</strong>  Bir DTOnun request modelinden farklı olması gerekiyor</li>
+  <li><strong>Versioning:</strong> Versiyonlama gerekiyor, API yi kullanan bir uygulamanın etkilenmemesi gerekir</li>
+  <li><strong>Simplicity:</strong> Basit olması gerekiyor</li>
+  <li><strong>Less dependency:</strong> Az bağımlı olması gerekiyor</li>
+  <li><strong>Validation:</strong>  Validation, ne hatası oluştuğunu bildirmesini sağlayacak</li>
+</ul>
+
+<h3 id="i̇simlendirme">İsimlendirme</h3>
+
+<blockquote>
+  <p>HTTP 1.0 da sadece get ve post vardı.</p>
+
+  <p>Post ile hem post hem put yapabilirsin ama anlaşılabilir olmak için put kullan.</p>
+
+  <p>PUT da tüm alanlar güncellenir, PATCH de sadece gönderilen alanlar güncellenir.</p>
+
+  <p>/me gayet anlaşılır bir endpoint, /users/id/followers da olabilir ama /me daha iyi</p>
+
+</blockquote>
+
+<h3 id="i̇lişkili-api-uçları">İlişkili API Uçları</h3>
+
+<h3 id="ortak-cevap-modeli">Ortak Cevap Modeli</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"success" : true,
+"code" : 200
+"message" : "user added"
+"internalMessage": "user added with id: 5"
+</code></pre></div></div>
+
+<p>Burada internal mesaj developer için message display için.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"success" : true,
+"code" : 200
+"message" : "user added"
+"internalMessage": "user added with id: 5"
+"validations" : [
+  "UserName" : "cannot be null",
+  "UserName" : "Please enter a value "
+]
+</code></pre></div></div>
+
+<p>Büyük firmalarda fb, twitter gibi firmalarda API larda modeller genellikle ortaktır.</p>
+
+<p><mark>Muhakkak ve muhakkak Request modelle DTO model birbirinden farklı olsun.</mark></p>
+
+<h4 id="status-kodları">Status Kodları</h4>
+
+<ul>
+  <li>200 Ok demek</li>
+  <li>304 no content</li>
+  <li>500 internal server, bende bir hata var</li>
+  <li>400 ve sonrası sende bir hata var, 404 ulaşmaya çalıştığın uç bende yok, 401 login olmamışsın/auth token göndermemişsin,  403 göndermiş olduğub auth token ile bu işlemi yapamazsın.</li>
+</ul>
+
+<h3 id="önbellekleme">Önbellekleme</h3>
+
+<p>İstenilen veri sürekli değişmeyen bir veri ise bu veriyi memoryde ya da redis gibi cache ortamlarında yada  cassandra ya da vb. ortamlarda tutun. Belirli bir süre (1-2 saat) veriyi cachle ve clientada verinin cacheden geldiğini söyle, cachein ne zaman yenileneceğini de söyle, eğer kullanıcı header ile cacheden istemediğini belirtirse canlı data alırsın. İki türlü cache var;</p>
+
+<ul>
+  <li>Client Cache</li>
+  <li>Server Cache</li>
+</ul>
+
+<h3 id="güvenlik">Güvenlik</h3>
+
+<ul>
+  <li>Basic Authenticaton</li>
+  <li>Token</li>
+  <li>OAuth 2.0 -&gt; token üretme mekanizması</li>
+  <li>SSL</li>
+</ul>
+
+<h3 id="çoklu-dil-desteği">Çoklu Dil Desteği</h3>
+
+<p>Çoklu dil desteğinde birimleri de kültüre göre gönderebilirsin.</p>
+
+<h3 id="versiyonlama">Versiyonlama</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/v1/users     1.0.0
+/v1.1/users   1.1.0
+/v1.1.3/users   1.1.3
+/users        latest
+</code></pre></div></div>
+
+<p>Semantic versiyonlama da ilk 3 numara önemli, ilk rakamın değişmesi breaking changes denilen uygulamanın çalışmasına engel olabilecek güncellemeler olduğunu gösterir. İkinci rakamda görülen şeyler çok kritik olmayan güncellemeler ama yinede bir bakımlık güncellemelerdir. Sonunca sayı ise genellikle iyileştirmeler ve eklemelerdir.</p>
+
+<blockquote>
+  <p>Sil baştan diye bir kitap var (roman olan değil girişimcilik kitabı) tavsiye edildi.</p>
+</blockquote>
+
+<h2 id="api-gateway">API Gateway</h2>
+
+<p>API gateway, API önüne koyulan ve proxyleme yapan bir arkadaşımız. Ne yapıyor? Bir şeyi diğer tarafa aktarır.</p>
+
+<p>Validasyon ile zorunlulukları bildiririz.</p>
+
+<p>Örnek ;</p>
+
+<ul>
+  <li>Header ile token göndermek zorundasın.</li>
+  <li>ContentType göndermek zorundasın. Ya application/json göndericeksin ya application/xml göndericeksin</li>
+  <li>Bodynin sizeı çok büyük, sınırlayabilirsin.</li>
+</ul>
+
+<p>Denilebilir.</p>
+
+<p>Bunları her API ye yazmamak için MiddleWare e yazman gerekir.</p>
+
+<p>Validasyon, loglama gibi şeyler API Gateway içerisinde barınır.</p>
+
+<p>API Gatewayler;</p>
+
+<ul>
+  <li>getkong</li>
+  <li>tyk.io</li>
+</ul>
+
+<p>Yardımcı Araçlar;</p>
+
+<ul>
+  <li>HTTPie</li>
+</ul>
+:ET
